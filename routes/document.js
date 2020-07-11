@@ -21,12 +21,18 @@ const upload = multer({
 
 //All Documents Route
 router.get('/', async (req, res) => {
-    const query = Document.find()
-    // if(req.query.title !=null && req.query.title != ''){
-    //     query = query.regex('title',new RegExp(req.query.title, 'i'))
-    // }
+    let query = Document.find()
+    if(req.query.title !=null && req.query.title != ''){
+        query = query.regex('title',new RegExp(req.query.title, 'i'))
+    }
+    if (req.query.publishedBefore != null && req.query.publishedBefore != '') {
+        query = query.lte('publishedDate', publishedBefore);
+      }
+      if (req.query.publishedAfter != null && req.query.publishedAfter != '') {
+        query = query.lte('publishedDate', publishedAfter);
+      }
     try {
-        const documents = await Document.find({})
+        const documents = await query.exec()
         res.render('documents/index', {
             documents,
             searchOptions: req.query
