@@ -1,7 +1,5 @@
 const mongoose = require('mongoose')
-const path = require('path')
-const coverImageBasePath = 'uploads/docCovers'
-const fileBasePath = 'uploads/Docs'
+
 const documentSchema = new mongoose.Schema({
     title: {
         type: String,
@@ -20,8 +18,13 @@ const documentSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    coverImageName: {
-        type: String
+    coverImage: {
+        type: Buffer,
+        required: true
+    },
+    coverImageType: {
+        type: String,
+        required: true
     },
     actualFile: {
         type: String
@@ -34,13 +37,10 @@ const documentSchema = new mongoose.Schema({
 
 })
 
-documentSchema.virtual('coverImagePath').get(function () {
-    if (this.coverImageName != null) {
-        return path.join('/', coverImageBasePath, this.coverImageName)
+documentSchema.virtual('coverImagePath').get(function() {
+    if (this.coverImage != null && this.coverImageType != null) {
+      return `data:${this.coverImageType};charset=utf-8;base64,${this.coverImage.toString('base64')}`
     }
-    console.log(coverImageBasePath +'  '+ this.coverImageName)
-})
+  })
 
 module.exports = mongoose.model('Document', documentSchema)
-module.exports.coverImageBasePath = coverImageBasePath
-module.exports.fileBasePath = fileBasePath
