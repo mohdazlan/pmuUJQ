@@ -1,6 +1,8 @@
 <h2 class="page-header">Edit Document</h2>
 <form action="/documents/<%= document.id %>?_method=PUT" method="POST">
     <%- include('_form_fields') %>
+    <div class="form-row form-row-end btn-row">
 <a href="/documents">Cancel</a>
 <button type="submit">Update</button>
+</div>
 </form>
