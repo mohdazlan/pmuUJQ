@@ -1,10 +1,25 @@
 <h2 class="page-header"><%= document.title %></h2>
-<img width="100" height="150" src="<%= document.coverImagePath %>">
-<div>Author: <%= document.author.name %></div>
-<div>Publish Date: <%= document.publishDate.toDateString() %></div>
-<div>Page Count: <%= document.pageCount %></div>
-<div>Description <%= document.description %></div>
+<div class="book-details">
+    <div class="">
+        <img class="book-cover" width="100" height="150" src="<%= document.coverImagePath %>">
+       <div class="book-details-btn-grid">
+        <a class="btn btn-primary" href="/documents/<%= document.id %>/edit">Edit</a>
+        <%- include('../partials/deleteForm', {url:`/documents/${document.id}`}) %>
+        <a  class="btn btn-primary book-details-author-button" href="/authors/<%= document.author.id %>">View Author</a>
+    </div>
+    </div>
+   <div class="book-details-grid">
+       <div class="book-details-label">Author:
+        <div><%= document.author.name %></div>
+       </div>
+       <div class="book-details-label">Publish Date:<div> <%= document.publishDate.toDateString() %></div></div>
+       <div class="book-details-label">Page Count:<div> <%= document.pageCount %></div></div>
+       <div class="book-details-label">Description:<div> <%= document.description %></div></div>
+   </div>
+    
+    
+    
+    
 
-<a href="/documents/<%= document.id %>/edit">Edit</a>
-<%- include('../partials/deleteForm', {url:`/documents/${document.id}`}) %>
-<a href="/authors/<%= document.author.id %>">View Author</a>
+
+</div>
